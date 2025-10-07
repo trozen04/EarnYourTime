@@ -39,42 +39,36 @@ class DigitalWellnessScreen extends StatelessWidget {
               SizedBox(height: height * 0.03),
 
               // GitHub Stats Section
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildStatCard(
-                    context,
-                    icon: Icons.star_border,
-                    value: '2.4K',
-                    label: 'GitHub Stars',
-                    width: width * 0.2,
-                    height: height * 0.1,
-                  ),
-                  _buildStatCard(
-                    context,
-                    icon: Icons.people_outline,
-                    value: '32',
-                    label: 'Contributors',
-                    width: width * 0.2,
-                    height: height * 0.1,
-                  ),
-                  _buildStatCard(
-                    context,
-                    icon: Icons.fork_right,
-                    value: '486',
-                    label: 'Forks',
-                    width: width * 0.2,
-                    height: height * 0.1,
-                  ),
-                  _buildStatCard(
-                    context,
-                    icon: Icons.commit,
-                    value: '1.8K',
-                    label: 'Commits',
-                    width: width * 0.2,
-                    height: height * 0.1,
-                  ),
-                ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    StatisticsCard(
+                      icon: Icons.star_border,
+                      value: '2.4K',
+                      label: 'GitHub Stars', 
+                    ),
+                    StatisticsCard(
+                      icon: Icons.people_outline,
+                      value: '32',
+                      label: 'Contributors', 
+
+                    ),
+                    StatisticsCard(
+                      icon: Icons.fork_right,
+                      value: '486',
+                      label: 'Forks', 
+
+                    ),
+                    StatisticsCard(
+                      icon: Icons.commit,
+                      value: '1.8K',
+                      label: 'Commits', 
+
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: height * 0.03),
 
@@ -136,61 +130,43 @@ class DigitalWellnessScreen extends StatelessWidget {
               SizedBox(height: height * 0.02),
 
               // Feature Cards
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FeatureCard(
-                    icon: Icons.code,
-                    title: 'Open Source',
-                    description: 'Built by the community, for the community. Every line of code is open for review and contribution.',
-                    width: width * 0.28,
-                    height: height * 0.15,
-                  ),
-                  FeatureCard(
-                    icon: Icons.lock_outline,
-                    title: 'Privacy Focused',
-                    description: 'Your data stays yours. We believe in transparent and secure handling of user information.',
-                    width: width * 0.28,
-                    height: height * 0.15,
-                  ),
-                  FeatureCard(
-                    icon: Icons.devices,
-                    title: 'Cross Platform',
-                    description: 'Seamlessly works across your devices, providing a unified productivity experience.',
-                    width: width * 0.28,
-                    height: height * 0.15,
-                  ),
-                ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: FeatureCard(
+                        icon: Icons.code,
+                        title: 'Open Source',
+                        description: 'Built by the community, for the community. Every line of code is open for review and contribution.',
+                        width: width,
+                        height: height,
+                      ),
+                    ),
+                    FeatureCard(
+                      icon: Icons.lock_outline,
+                      title: 'Privacy Focused',
+                      description: 'Your data stays yours. We believe in transparent and secure handling of user information.',
+                      width: width,
+                      height: height,
+                    ),
+                    FeatureCard(
+                      icon: Icons.devices,
+                      title: 'Cross Platform',
+                      description: 'Seamlessly works across your devices, providing a unified productivity experience.',
+                      width: width,
+                      height: height,
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: height * 0.03),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildStatCard(BuildContext context,
-      {required IconData icon, required String value, required String label, required double width, required double height}) {
-    return Container(
-      width: width,
-      height: height,
-      padding: EdgeInsets.symmetric(vertical: height * 0.02),
-      decoration: BoxDecoration(
-          border: Border.all(color: AppColors.borderColor),
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: AppShadows.cardShadow
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: Colors.blue, size: 24),
-          SizedBox(height: height * 0.01),
-          Text(value, style: FTextStyles.headingText),
-          Text(label, style: FTextStyles.labelText),
-        ],
       ),
     );
   }

@@ -98,33 +98,31 @@ class _EarnYourTimeHomeScreenState extends State<EarnYourTimeHomeScreen> {
               SizedBox(height: height * 0.03),
 
               // Stats Section (Today's Total with Coding Time, Focus Score, Next Lock In)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  StatCard(
-                    title: "Today's Total",
-                    value: '4h 15m',
-                    subtitle: 'Coding Time: 3h 25m',
-                    width: width * 0.3,
-                    height: height * 0.12,
-                  ),
-                  StatCard(
-                    title: 'Focus Score',
-                    value: '92%',
-                    subtitle: 'Top 5% users',
-                    icon: Icons.emoji_events,
-                    width: width * 0.3,
-                    height: height * 0.12,
-                  ),
-                  StatCard(
-                    title: 'Next Lock in',
-                    value: '45m',
-                    icon: Icons.lock_open_outlined,
-                    width: width * 0.3,
-                    height: height * 0.12,
-                    showLargeIcon: true,
-                  ),
-                ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    StatCard(
+                      title: "Today's Total",
+                      value: '4h 15m',
+                      subtitle: 'Coding Time: 3h 25m',
+                    ),
+                    StatCard(
+                      title: 'Focus Score',
+                      value: '92%',
+                      subtitle: 'Top 5% users',
+                      icon: Icons.emoji_events,
+                    ),
+                    StatCard(
+                      title: 'Next Lock in',
+                      value: '45m',
+                      icon: Icons.lock_open_outlined,
+
+                      showLargeIcon: true,
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: height * 0.03),
 

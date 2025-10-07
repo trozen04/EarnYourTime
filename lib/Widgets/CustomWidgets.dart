@@ -3,10 +3,6 @@ import 'package:earn_your_time/Utils/AppShadows.dart';
 import 'package:earn_your_time/Utils/FTextStyles.dart';
 import 'package:flutter/material.dart';
 
-import 'package:earn_your_time/Utils/AppColors.dart';
-import 'package:earn_your_time/Utils/FTextStyles.dart';
-import 'package:flutter/material.dart';
-
 class CustomListTile extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -107,9 +103,8 @@ class StatCard extends StatelessWidget {
   final String value;
   final String? subtitle;
   final IconData? icon;
-  final double width;
-  final double height;
   final bool showLargeIcon;
+  final double? maxWidth;
 
   const StatCard({
     super.key,
@@ -117,64 +112,71 @@ class StatCard extends StatelessWidget {
     required this.value,
     this.subtitle,
     this.icon,
-    required this.width,
-    required this.height,
     this.showLargeIcon = false,
+    this.maxWidth,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width,
-      height: height,
-      padding: EdgeInsets.symmetric(horizontal: width * 0.02, vertical: height * 0.02),
+      constraints: BoxConstraints(
+        maxWidth: maxWidth ?? MediaQuery.of(context).size.width * 0.3,
+        maxHeight: MediaQuery.of(context).size.height * 0.15,
+      ),
+      margin: const EdgeInsets.only(right: 8), // spacing between cards
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
         boxShadow: AppShadows.cardShadow,
-        border: Border.all(color: AppColors.borderColor)
+        border: Border.all(color: AppColors.borderColor),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisSize: MainAxisSize.min, // auto height
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (showLargeIcon && icon != null) ...[
             Icon(
               icon,
               color: Colors.grey,
-              size: height * 0.4,
+              size: 40, // flexible, adjust as needed
             ),
-            SizedBox(height: height * 0.05),
+            const SizedBox(height: 8),
           ],
           Text(
             title,
             style: FTextStyles.labelText,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
+            textAlign: TextAlign.center,
           ),
-          SizedBox(height: height * 0.01),
+          const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                value,
-                style: showLargeIcon
-                    ? FTextStyles.headingText
-                    : FTextStyles.largeText.copyWith(fontSize: 20),
+              Flexible(
+                child: Text(
+                  value,
+                  style: showLargeIcon
+                      ? FTextStyles.headingText
+                      : FTextStyles.largeText.copyWith(fontSize: 20),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               if (!showLargeIcon && icon != null) ...[
-                SizedBox(width: width * 0.02),
+                const SizedBox(width: 6),
                 Icon(icon, color: Colors.amber, size: 20),
               ],
             ],
           ),
           if (subtitle != null) ...[
-            SizedBox(height: height * 0.01),
+            const SizedBox(height: 4),
             Text(
               subtitle!,
               style: FTextStyles.labelText.copyWith(color: Colors.grey),
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
+              textAlign: TextAlign.center,
             ),
           ],
         ],
@@ -202,9 +204,11 @@ class FeatureCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width,
-      height: height,
-      padding: EdgeInsets.symmetric(horizontal: width * 0.02, vertical: height * 0.02),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width * 0.35,
+      ),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.015, vertical: height * 0.02),
+      margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(color: AppColors.borderColor),
@@ -212,21 +216,405 @@ class FeatureCard extends StatelessWidget {
         boxShadow: AppShadows.cardShadow,
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Icon(icon, color: Colors.blue, size: 24),
           SizedBox(height: height * 0.01),
-          Text(title, style: FTextStyles.headingText),
+          Text(title, style: FTextStyles.headingText, textAlign: TextAlign.center,),
           SizedBox(height: height * 0.01),
           Text(
             description,
             style: FTextStyles.labelText.copyWith(fontSize: 12),
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.justify,
           ),
         ],
       ),
+    );
+  }
+}
+
+class StatisticsCard extends StatelessWidget {
+  final IconData icon;
+  final String value;
+  final String label;
+  final String? change;
+  final Color? iconColor;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final TextStyle? valueStyle;
+  final TextStyle? labelStyle;
+  final TextStyle? changeStyle;
+  final double? maxWidth;
+
+  const StatisticsCard({
+    super.key,
+    required this.icon,
+    required this.value,
+    required this.label,
+    this.change,
+    this.iconColor,
+    this.backgroundColor,
+    this.borderColor,
+    this.valueStyle,
+    this.labelStyle,
+    this.changeStyle,
+    this.maxWidth,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints(
+        maxWidth: maxWidth ?? MediaQuery.of(context).size.width * 0.35,
+      ),
+      margin: const EdgeInsets.only(right: 8), // right margin between cards
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(color: borderColor ?? Colors.grey.shade300),
+        color: backgroundColor ?? Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min, // important: height auto-adjusts
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: iconColor ?? Colors.blue, size: 24),
+              const SizedBox(width: 6),
+              Flexible(
+                child: Text(
+                  value,
+                  style: valueStyle ??
+                      const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Flexible(
+            child: Text(
+              label,
+              style: labelStyle ??
+                  const TextStyle(fontSize: 14, color: Colors.black54),
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          if( change != null) const SizedBox(height: 8),
+          Flexible(
+            child: Text(
+              change ?? '',
+              style: changeStyle ??
+                  TextStyle(
+                    fontSize: 13,
+                    color: change != null && change!.contains('↑') ? Colors.green : Colors.red,
+                  ),
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DistributionTile extends StatelessWidget {
+  final String label;
+  final int percentage;
+  final bool showTasks;
+  final Color? barColor;
+  final Color? backgroundColor;
+  final TextStyle? labelStyle;
+  final TextStyle? percentageStyle;
+
+  const DistributionTile({
+    super.key,
+    required this.label,
+    required this.percentage,
+    this.showTasks = false,
+    this.barColor,
+    this.backgroundColor,
+    this.labelStyle,
+    this.percentageStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            flex: 2,
+            child: Text(label, style: labelStyle ?? const TextStyle(fontSize: 14, color: Colors.black87)),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            flex: 5,
+            child: Stack(
+              children: [
+                Container(
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: backgroundColor ?? Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                FractionallySizedBox(
+                  widthFactor: percentage / 100,
+                  child: Container(
+                    height: 10,
+                    decoration: BoxDecoration(
+                      color: barColor ?? Colors.blue,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 10),
+          Text(
+            showTasks ? '$percentage% • ${percentage ~/ 10} tasks' : '$percentage%',
+            style: percentageStyle ?? const TextStyle(fontSize: 13, color: Colors.black87),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TileCard extends StatefulWidget {
+  final String title;
+  final String? description;
+  final IconData? leadingIcon;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final double? iconSize;
+  final String? query; // search query for highlighting
+
+  const TileCard({
+    super.key,
+    required this.title,
+    this.description,
+    this.leadingIcon,
+    this.padding,
+    this.margin,
+    this.backgroundColor,
+    this.borderColor,
+    this.iconSize,
+    this.query,
+  });
+
+  @override
+  State<TileCard> createState() => _TileCardState();
+}
+
+class _TileCardState extends State<TileCard> {
+  bool isExpanded = false;
+
+  // Helper to highlight matched text
+  RichText highlightText(String text, String? query, TextStyle style) {
+    if (query == null || query.isEmpty) return RichText(text: TextSpan(text: text, style: style));
+
+    final lowerText = text.toLowerCase();
+    final lowerQuery = query.toLowerCase();
+
+    List<TextSpan> spans = [];
+    int start = 0;
+
+    while (true) {
+      final index = lowerText.indexOf(lowerQuery, start);
+      if (index < 0) {
+        spans.add(TextSpan(text: text.substring(start), style: style));
+        break;
+      }
+      if (index > start) {
+        spans.add(TextSpan(text: text.substring(start, index), style: style));
+      }
+      spans.add(TextSpan(
+        text: text.substring(index, index + query.length),
+        style: style.copyWith(backgroundColor: Colors.yellow),
+      ));
+      start = index + query.length;
+    }
+
+    return RichText(
+      text: TextSpan(children: spans),
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: widget.margin ?? const EdgeInsets.symmetric(vertical: 4),
+      padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        border: Border.all(color: widget.borderColor ?? AppColors.borderColor),
+        color: widget.backgroundColor ?? Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: AppShadows.cardShadow,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: widget.description != null
+                ? MainAxisAlignment.spaceBetween
+                : MainAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    if (widget.leadingIcon != null) ...[
+                      Icon(widget.leadingIcon, color: Colors.blue, size: widget.iconSize ?? 20),
+                      const SizedBox(width: 8),
+                    ],
+                    Flexible(
+                      child: highlightText(widget.title, widget.query, FTextStyles.labelTextDark),
+                    ),
+                  ],
+                ),
+              ),
+              if (widget.description != null) ...[
+                const SizedBox(width: 8),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isExpanded = !isExpanded;
+                    });
+                  },
+                  child: Icon(
+                    isExpanded ? Icons.expand_less : Icons.expand_more,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ],
+          ),
+
+          if (widget.description != null && isExpanded) ...[
+            const SizedBox(height: 16),
+            highlightText(
+              widget.description!,
+              widget.query,
+              FTextStyles.labelTextDark.copyWith(color: Colors.grey.shade700, fontSize: 14),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+/// Reusable Notification Card
+class NotificationCard extends StatelessWidget {
+  final String title;
+  final String description;
+  final String time;
+  final String? query;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
+
+  const NotificationCard({
+    super.key,
+    required this.title,
+    required this.description,
+    required this.time,
+    this.query,
+    this.padding,
+    this.margin,
+  });
+
+  RichText highlightText(String text, String? query, TextStyle style) {
+    if (query == null || query.isEmpty) return RichText(text: TextSpan(text: text, style: style));
+
+    final lowerText = text.toLowerCase();
+    final lowerQuery = query.toLowerCase();
+    List<TextSpan> spans = [];
+    int start = 0;
+
+    while (true) {
+      final index = lowerText.indexOf(lowerQuery, start);
+      if (index < 0) {
+        spans.add(TextSpan(text: text.substring(start), style: style));
+        break;
+      }
+      if (index > start) {
+        spans.add(TextSpan(text: text.substring(start, index), style: style));
+      }
+      spans.add(TextSpan(
+        text: text.substring(index, index + query.length),
+        style: style.copyWith(backgroundColor: Colors.yellow.shade200),
+      ));
+      start = index + query.length;
+    }
+
+    return RichText(
+      text: TextSpan(children: spans),
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: margin ?? const EdgeInsets.symmetric(vertical: 4),
+      padding: padding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.borderColor),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: AppShadows.cardShadow,
+      ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center, // icon stays centered
+          children: [
+            Icon(Icons.notifications, color: Colors.blue, size: 45),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  highlightText(title, query, FTextStyles.labelTextDark),
+                  const SizedBox(height: 6),
+                  highlightText(
+                    description,
+                    query,
+                    FTextStyles.labelText.copyWith(color: Colors.grey.shade700),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            // Time aligned to bottom of the row
+            Container(
+              height: 60, // set height same as the row/notification card
+              alignment: Alignment.bottomRight,
+              child: Text(
+                time,
+                style: FTextStyles.labelTextTimeStamp,
+              ),
+            ),
+          ],
+        )
     );
   }
 }

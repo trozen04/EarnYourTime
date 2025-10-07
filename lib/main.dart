@@ -1,3 +1,4 @@
+import 'package:earn_your_time/Screens/Notifications/NotificationScreen.dart';
 import 'package:earn_your_time/Screens/Statistics/StatisticsScreen.dart';
 import 'package:flutter/material.dart';
 import 'Screens/CoreScreens/DigitalWellnessScreen.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
             return SlideRightRoute(page: const PrivacyPolicyScreen());
           case '/support_faq':
             return SlideRightRoute(page: const SupportFAQScreen());
+          case '/notification':
+            return SlideRightRoute(page: const NotificationScreen());
+
           default:
             return MaterialPageRoute(
               builder: (context) => const EarnYourTimeHomeScreen(),

@@ -5,6 +5,8 @@ import 'package:earn_your_time/Widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
+import '../../Widgets/CustomWidgets.dart';
+
 class StatisticsScreen extends StatelessWidget {
   StatisticsScreen({super.key});
 
@@ -105,47 +107,41 @@ class StatisticsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Stats Section
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildStatCard(
-                    context,
-                    icon: Icons.timer,
-                    value: '32.5',
-                    label: 'Productive Hours',
-                    change: '+12% ↑',
-                    width: width * 0.23,
-                    height: height * 0.12,
-                  ),
-                  _buildStatCard(
-                    context,
-                    icon: Icons.center_focus_strong,
-                    value: '85%',
-                    label: 'Focus Score',
-                    change: '+5% ↑',
-                    width: width * 0.23,
-                    height: height * 0.12,
-                  ),
-                  _buildStatCard(
-                    context,
-                    icon: Icons.phone_android,
-                    value: '8h 15m',
-                    label: 'Phone Time Earned',
-                    change: '-3% ↓',
-                    width: width * 0.23,
-                    height: height * 0.12,
-                  ),
-                  _buildStatCard(
-                    context,
-                    icon: Icons.flash_on,
-                    value: '12 days',
-                    label: 'Productivity Streak',
-                    change: '+2 ↑',
-                    width: width * 0.23,
-                    height: height * 0.12,
-                  ),
-                ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    StatisticsCard(
+                      icon: Icons.timer,
+                      value: '32.5',
+                      label: 'Productive Hours',
+                      change: '+12% ↑',
+                    ),
+                    const SizedBox(width: 8),
+                    StatisticsCard(
+                      icon: Icons.center_focus_strong,
+                      value: '85%',
+                      label: 'Focus Score',
+                      change: '+5% ↑',
+                    ),
+                    const SizedBox(width: 8),
+                    StatisticsCard(
+                      icon: Icons.phone_android,
+                      value: '8h 15m',
+                      label: 'Phone Time Earned',
+                      change: '-3% ↓',
+                    ),
+                    const SizedBox(width: 8),
+                    StatisticsCard(
+                      icon: Icons.flash_on,
+                      value: '12 days',
+                      label: 'Productivity Streak',
+                      change: '+2 ↑',
+                    ),
+                  ],
+                ),
               ),
+
               SizedBox(height: height * 0.03),
 
               // Weekly Overview Section
@@ -209,26 +205,21 @@ class StatisticsScreen extends StatelessWidget {
                 style: FTextStyles.headingText,
               ),
               SizedBox(height: height * 0.01),
-              _buildDistributionTile(
-                context,
+              DistributionTile(
                 label: 'Development',
                 percentage: 45,
-                width: width,
-                height: height * 0.06,
               ),
-              _buildDistributionTile(
-                context,
+              DistributionTile(
+                
                 label: 'Research',
                 percentage: 30,
-                width: width,
-                height: height * 0.06,
+                
               ),
-              _buildDistributionTile(
-                context,
+              DistributionTile(
+                
                 label: 'Design',
                 percentage: 25,
-                width: width,
-                height: height * 0.06,
+                
               ),
               SizedBox(height: height * 0.03),
 
@@ -238,108 +229,29 @@ class StatisticsScreen extends StatelessWidget {
                 style: FTextStyles.headingText,
               ),
               SizedBox(height: height * 0.01),
-              _buildDistributionTile(
-                context,
+              DistributionTile(
+                
                 label: 'Morning',
                 percentage: 85,
-                width: width,
-                height: height * 0.06,
+                
                 showTasks: true,
               ),
-              _buildDistributionTile(
-                context,
+              DistributionTile(
+                
                 label: 'Afternoon',
                 percentage: 65,
-                width: width,
-                height: height * 0.06,
+                
                 showTasks: true,
               ),
-              _buildDistributionTile(
-                context,
+              DistributionTile(
                 label: 'Evening',
                 percentage: 45,
-                width: width,
-                height: height * 0.06,
                 showTasks: true,
               ),
               SizedBox(height: height * 0.03),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildStatCard(BuildContext context,
-      {required IconData icon, required String value, required String label, required String change, required double width, required double height}) {
-    return Container(
-      width: width,
-      height: height,
-      padding: EdgeInsets.symmetric(horizontal: width * 0.02, vertical: height * 0.02),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.borderColor),
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: AppShadows.cardShadow,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, color: Colors.blue, size: 24),
-              SizedBox(width: width * 0.02),
-              Text(value, style: FTextStyles.largeText.copyWith(fontSize: 20)),
-            ],
-          ),
-          SizedBox(height: height * 0.01),
-          Text(label, style: FTextStyles.labelText),
-          SizedBox(height: height * 0.005),
-          Text(change, style: FTextStyles.labelText.copyWith(color: change.contains('↑') ? Colors.green : Colors.red)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDistributionTile(BuildContext context,
-      {required String label, required int percentage, required double width, required double height, bool showTasks = false}) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: height * 0.01),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label, style: FTextStyles.labelTextDark),
-          SizedBox(width: width * 0.02),
-          Expanded(
-            child: Stack(
-              children: [
-                Container(
-                  height: height * 0.02,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                ),
-                FractionallySizedBox(
-                  widthFactor: percentage / 100,
-                  child: Container(
-                    height: height * 0.02,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(width: width * 0.02),
-          Text(
-            showTasks ? '$percentage% • ${percentage ~/ 10} tasks' : '$percentage%',
-            style: FTextStyles.labelTextDark,
-          ),
-        ],
       ),
     );
   }

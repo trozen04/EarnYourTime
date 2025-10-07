@@ -44,6 +44,8 @@ dev_dependencies:
   charts_flutter: ^0.12.0
   mdi:
   material_design_icons_flutter:
+  package_info_plus: ^4.0.0
+
 
 
 

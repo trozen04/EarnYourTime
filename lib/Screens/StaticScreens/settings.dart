@@ -3,18 +3,41 @@ import 'package:earn_your_time/Utils/AppShadows.dart';
 import 'package:earn_your_time/Utils/FTextStyles.dart';
 import 'package:earn_your_time/Widgets/CustomAppBar.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  String _appName = '';
+  String _appVersion = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchAppInfo();
+  }
+
+  Future<void> _fetchAppInfo() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      _appName = packageInfo.appName;
+      _appVersion = packageInfo.version;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Get screen dimensions for responsiveness
     final Size screenSize = MediaQuery.of(context).size;
     final double width = screenSize.width;
     final double height = screenSize.height;
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Settings'),
+      appBar: const CustomAppBar(title: 'Settings'),
       backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width * 0.035, vertical: height * 0.02),
@@ -33,8 +56,7 @@ class SettingsScreen extends StatelessWidget {
                     width: width,
                     height: height * 0.1,
                     onTap: () {
-                      // Handle navigation or action
-                      print("Notifications tapped");
+                      Navigator.pushNamed(context, '/notification');
                     },
                   ),
                   _buildSettingsTile(
@@ -72,15 +94,15 @@ class SettingsScreen extends StatelessWidget {
                   ),
                 ],
               ),
-
             ),
+
             // Version Text at the Bottom
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: EdgeInsets.only(bottom: height * 0.02),
                 child: Text(
-                  'EarnYourTime v1.0.0',
+                  '$_appName v$_appVersion',
                   style: TextStyle(
                     fontSize: height * 0.015,
                     color: Colors.grey,
@@ -101,10 +123,10 @@ class SettingsScreen extends StatelessWidget {
         required String subtitle,
         required double width,
         required double height,
-        VoidCallback? onTap, // Added onTap callback
+        VoidCallback? onTap,
       }) {
     return GestureDetector(
-      onTap: onTap, // Handle tap event
+      onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: width * 0.01, vertical: height * 0.05),
         margin: EdgeInsets.symmetric(vertical: height * 0.05),
@@ -112,7 +134,7 @@ class SettingsScreen extends StatelessWidget {
           border: Border.all(color: AppColors.borderColor),
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-            boxShadow: AppShadows.cardShadow,
+          boxShadow: AppShadows.cardShadow,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -137,5 +159,4 @@ class SettingsScreen extends StatelessWidget {
       ),
     );
   }
-
 }
