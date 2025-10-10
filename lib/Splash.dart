@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         child: FadeTransition(
           opacity: _fadeAnimation,
           child: Text(
-            'EarnYourTime', // Large text with fade-in effect
+            'Habitrack', // Large text with fade-in effect
             style: FTextStyles.largeText,
             textAlign: TextAlign.center,
           ),

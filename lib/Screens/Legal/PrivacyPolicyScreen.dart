@@ -36,7 +36,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               ),
               SizedBox(height: height * 0.01),
               Text(
-                'This privacy policy explains how EarnYourTime collects, uses, and protects your personal information. We’re committed to protecting your privacy and ensuring transparency in our data practices.',
+                'This privacy policy explains how Habitrack collects, uses, and protects your personal information. We’re committed to protecting your privacy and ensuring transparency in our data practices.',
                 style: FTextStyles.labelTextDark.copyWith(fontSize: 14),
               ),
               SizedBox(height: height * 0.03),
@@ -91,7 +91,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 title: 'Contact Us',
                 content: [
                   'If you have any questions about our privacy policy or data practices, please contact us:',
-                  ' - Email: support@earnyourtime.com',
+                  ' - Email: support@Habitrack.com',
                   ' - Live Chat: Available in the Support & FAQ section',
                 ],
                 width: width,

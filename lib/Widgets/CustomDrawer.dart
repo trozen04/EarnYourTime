@@ -29,7 +29,7 @@ class CustomDrawer extends StatelessWidget {
               ),
               alignment: Alignment.bottomCenter,
               child: Text(
-                'Earn Your Time',
+                'Habitrack',
                 style: FTextStyles.appName,
                 textAlign: TextAlign.center,
               ),

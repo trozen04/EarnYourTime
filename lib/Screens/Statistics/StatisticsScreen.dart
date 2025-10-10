@@ -15,78 +15,85 @@ class StatisticsScreen extends StatelessWidget {
     BarChartGroupData(x: 0, barRods: [
       BarChartRodData(
         toY: 4,
-        color: Colors.blue,
-        width: 30,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(4),
-          topRight: Radius.circular(4),
+        width: 24,
+        gradient: const LinearGradient(
+          colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
         ),
+        borderRadius: BorderRadius.circular(6),
       ),
     ]),
     BarChartGroupData(x: 1, barRods: [
       BarChartRodData(
         toY: 6,
-        color: Colors.blue,
-        width: 30,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(4),
-          topRight: Radius.circular(4),
+        width: 24,
+        gradient: const LinearGradient(
+          colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
         ),
+        borderRadius: BorderRadius.circular(6),
       ),
     ]),
     BarChartGroupData(x: 2, barRods: [
       BarChartRodData(
         toY: 5,
-        color: Colors.blue,
-        width: 30,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(4),
-          topRight: Radius.circular(4),
+        width: 24,
+        gradient: const LinearGradient(
+          colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
         ),
+        borderRadius: BorderRadius.circular(6),
       ),
     ]),
     BarChartGroupData(x: 3, barRods: [
       BarChartRodData(
         toY: 8,
-        color: Colors.blue,
-        width: 30,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(4),
-          topRight: Radius.circular(4),
+        width: 24,
+        gradient: const LinearGradient(
+          colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
         ),
+        borderRadius: BorderRadius.circular(6),
       ),
     ]),
     BarChartGroupData(x: 4, barRods: [
       BarChartRodData(
         toY: 5,
-        color: Colors.blue,
-        width: 30,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(4),
-          topRight: Radius.circular(4),
+        width: 24,
+        gradient: const LinearGradient(
+          colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
         ),
+        borderRadius: BorderRadius.circular(6),
       ),
     ]),
     BarChartGroupData(x: 5, barRods: [
       BarChartRodData(
         toY: 3,
-        color: Colors.blue,
-        width: 30,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(4),
-          topRight: Radius.circular(4),
+        width: 24,
+        gradient: const LinearGradient(
+          colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
         ),
+        borderRadius: BorderRadius.circular(6),
       ),
     ]),
     BarChartGroupData(x: 6, barRods: [
       BarChartRodData(
         toY: 2,
-        color: Colors.blue,
-        width: 30,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(4),
-          topRight: Radius.circular(4),
+        width: 24,
+        gradient: const LinearGradient(
+          colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
         ),
+        borderRadius: BorderRadius.circular(6),
       ),
     ]),
   ];
@@ -152,26 +159,45 @@ class StatisticsScreen extends StatelessWidget {
               SizedBox(height: height * 0.01),
               Container(
                 height: height * 0.3,
-                padding: EdgeInsets.symmetric(horizontal: width * 0.05, vertical: height * 0.01),
+                padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.05,
+                  vertical: height * 0.015,
+                ),
                 decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.borderColor),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: AppShadows.elevatedShadow,
+                  gradient: const LinearGradient(
+                    colors: [Colors.white, Color(0xFFF3F7FF)], // soft fade to light blue
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF2575FC).withOpacity(0.12),
+                      blurRadius: 15,
+                      spreadRadius: 2,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
                 ),
                 child: BarChart(
                   BarChartData(
                     barGroups: barGroups,
+                    borderData: FlBorderData(show: false),
+                    gridData: FlGridData(show: false),
+                    barTouchData: BarTouchData(enabled: false),
                     titlesData: FlTitlesData(
                       leftTitles: AxisTitles(
                         sideTitles: SideTitles(
                           showTitles: true,
-                          getTitlesWidget: (value, meta) {
-                            return Text(
-                              '${value.toInt()}',
-                              style: FTextStyles.labelTextDark,
-                            );
-                          },
+                          reservedSize: 30,
+                          getTitlesWidget: (value, meta) => Text(
+                            '${value.toInt()}',
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF616161),
+                            ),
+                          ),
                           interval: 2,
                         ),
                       ),
@@ -180,9 +206,16 @@ class StatisticsScreen extends StatelessWidget {
                           showTitles: true,
                           getTitlesWidget: (value, meta) {
                             const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-                            return Text(
-                              days[value.toInt()],
-                              style: FTextStyles.labelText,
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 6),
+                              child: Text(
+                                days[value.toInt()],
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF424242),
+                                ),
+                              ),
                             );
                           },
                         ),
@@ -190,9 +223,6 @@ class StatisticsScreen extends StatelessWidget {
                       topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                       rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                     ),
-                    borderData: FlBorderData(show: false),
-                    barTouchData: BarTouchData(enabled: false),
-                    gridData: FlGridData(show: false),
                     maxY: 8,
                   ),
                 ),
@@ -207,19 +237,15 @@ class StatisticsScreen extends StatelessWidget {
               SizedBox(height: height * 0.01),
               DistributionTile(
                 label: 'Development',
+                percentage: 90,
+              ),
+              DistributionTile(
+                label: 'Research',
                 percentage: 45,
               ),
               DistributionTile(
-                
-                label: 'Research',
-                percentage: 30,
-                
-              ),
-              DistributionTile(
-                
                 label: 'Design',
                 percentage: 25,
-                
               ),
               SizedBox(height: height * 0.03),
 
@@ -230,17 +256,17 @@ class StatisticsScreen extends StatelessWidget {
               ),
               SizedBox(height: height * 0.01),
               DistributionTile(
-                
+
                 label: 'Morning',
                 percentage: 85,
-                
+
                 showTasks: true,
               ),
               DistributionTile(
-                
+
                 label: 'Afternoon',
                 percentage: 65,
-                
+
                 showTasks: true,
               ),
               DistributionTile(

@@ -33,7 +33,7 @@ class DigitalWellnessScreen extends StatelessWidget {
               ),
               SizedBox(height: height * 0.01),
               Text(
-                'EarnYourTime is revolutionizing how we interact with technology, creating a healthier relationship between productivity and digital consumption.',
+                'Habitrack is revolutionizing how we interact with technology, creating a healthier relationship between productivity and digital consumption.',
                 style: FTextStyles.labelTextDark.copyWith(fontSize: 14),
               ),
               SizedBox(height: height * 0.03),

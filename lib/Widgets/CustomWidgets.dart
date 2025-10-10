@@ -3,6 +3,8 @@ import 'package:earn_your_time/Utils/AppShadows.dart';
 import 'package:earn_your_time/Utils/FTextStyles.dart';
 import 'package:flutter/material.dart';
 
+import 'animation.dart';
+
 class CustomListTile extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -59,8 +61,8 @@ class ActivityTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: width * 0.01, vertical: height * 0.06),
-      margin: EdgeInsets.only(bottom: height * 0.07),
+      padding: EdgeInsets.symmetric(horizontal: width * 0.03, vertical: height * 0.02),
+      margin: EdgeInsets.only(bottom: height * 0.02),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
@@ -103,6 +105,7 @@ class StatCard extends StatelessWidget {
   final String value;
   final String? subtitle;
   final IconData? icon;
+  final IconData? titleIcon;
   final bool showLargeIcon;
   final double? maxWidth;
 
@@ -112,6 +115,7 @@ class StatCard extends StatelessWidget {
     required this.value,
     this.subtitle,
     this.icon,
+    this.titleIcon,
     this.showLargeIcon = false,
     this.maxWidth,
   });
@@ -119,11 +123,9 @@ class StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(
-        maxWidth: maxWidth ?? MediaQuery.of(context).size.width * 0.3,
-        maxHeight: MediaQuery.of(context).size.height * 0.15,
-      ),
-      margin: const EdgeInsets.only(right: 8), // spacing between cards
+      height: MediaQuery.of(context).size.height * 0.14,
+      width: MediaQuery.of(context).size.width * 0.5,
+      margin: const EdgeInsets.only(right: 18), // spacing between cards
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -133,7 +135,8 @@ class StatCard extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min, // auto height
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           if (showLargeIcon && icon != null) ...[
             Icon(
@@ -143,16 +146,26 @@ class StatCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
           ],
-          Text(
-            title,
-            style: FTextStyles.labelText,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            textAlign: TextAlign.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                title,
+                style: FTextStyles.labelText,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                textAlign: TextAlign.center,
+              ),
+              Icon(
+                titleIcon,
+                color: Colors.green,
+              ),
+            ],
           ),
           const SizedBox(height: 4),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Flexible(
                 child: Text(
@@ -171,12 +184,13 @@ class StatCard extends StatelessWidget {
           ),
           if (subtitle != null) ...[
             const SizedBox(height: 4),
-            Text(
-              subtitle!,
-              style: FTextStyles.labelText.copyWith(color: Colors.grey),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-              textAlign: TextAlign.center,
+            FittedBox(
+              child: Text(
+                subtitle!,
+                style: FTextStyles.labelText.copyWith(color: Colors.grey),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
           ],
         ],
@@ -282,11 +296,11 @@ class StatisticsCard extends StatelessWidget {
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min, // important: height auto-adjusts
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Icon(icon, color: iconColor ?? Colors.blue, size: 24),
               const SizedBox(width: 6),
@@ -300,7 +314,7 @@ class StatisticsCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 14),
           Flexible(
             child: Text(
               label,
@@ -310,7 +324,7 @@ class StatisticsCard extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          if( change != null) const SizedBox(height: 8),
+          if( change != null) const SizedBox(height: 14),
           Flexible(
             child: Text(
               change ?? '',
@@ -334,6 +348,7 @@ class DistributionTile extends StatelessWidget {
   final int percentage;
   final bool showTasks;
   final Color? barColor;
+  final Gradient? barGradient;
   final Color? backgroundColor;
   final TextStyle? labelStyle;
   final TextStyle? percentageStyle;
@@ -344,6 +359,7 @@ class DistributionTile extends StatelessWidget {
     required this.percentage,
     this.showTasks = false,
     this.barColor,
+    this.barGradient,
     this.backgroundColor,
     this.labelStyle,
     this.percentageStyle,
@@ -351,44 +367,68 @@ class DistributionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF2575FC).withOpacity(0.12),
+            blurRadius: 15,
+            spreadRadius: 2,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // Label
           Expanded(
-            flex: 2,
-            child: Text(label, style: labelStyle ?? const TextStyle(fontSize: 14, color: Colors.black87)),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            flex: 5,
-            child: Stack(
-              children: [
-                Container(
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: backgroundColor ?? Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(4),
+            flex: 3,
+            child: Text(
+              label,
+              style: labelStyle ??
+                  const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF424242),
                   ),
-                ),
-                FractionallySizedBox(
-                  widthFactor: percentage / 100,
-                  child: Container(
-                    height: 10,
-                    decoration: BoxDecoration(
-                      color: barColor ?? Colors.blue,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                ),
-              ],
             ),
           ),
-          const SizedBox(width: 10),
-          Text(
-            showTasks ? '$percentage% • ${percentage ~/ 10} tasks' : '$percentage%',
-            style: percentageStyle ?? const TextStyle(fontSize: 13, color: Colors.black87),
+
+          const SizedBox(width: 12),
+
+          // Animated Gradient Bar
+          Expanded(
+            flex: 5,
+            child: AnimatedGradientBar(
+              value: percentage.toDouble(),
+              isHorizontal: true,
+              barGradient: barGradient,
+              barColor: barColor,
+              backgroundColor: backgroundColor,
+              height: 12,
+              showTasks: showTasks,
+            ),
+          ),
+
+          const SizedBox(width: 12),
+
+          // Percentage Text
+          SizedBox(
+            width: 90,
+            child: Text(
+              showTasks ? '$percentage% • ${percentage ~/ 10} tasks' : '$percentage%',
+              textAlign: TextAlign.end,
+              style: percentageStyle ??
+                  const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF616161),
+                  ),
+            ),
           ),
         ],
       ),

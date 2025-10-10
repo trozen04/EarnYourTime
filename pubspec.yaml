@@ -90,6 +90,10 @@ flutter:
     - family: OutfitRegular
       fonts:
         - asset: assets/fonts/Outfit/Outfit-Regular.ttf
+    - family: InterSemiBold
+      fonts:
+        - asset: assets/fonts/Inter/Inter_28pt-SemiBold.ttf
+
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

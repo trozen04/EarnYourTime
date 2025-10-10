@@ -36,7 +36,7 @@ class _EarnYourTimeHomeScreenState extends State<EarnYourTimeHomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'EarnYourTime',
+              'Habitrack',
               style: FTextStyles.appName,
             ),
             const Spacer(),
@@ -87,7 +87,7 @@ class _EarnYourTimeHomeScreenState extends State<EarnYourTimeHomeScreen> {
                       '2h 30m',
                       style: FTextStyles.largeText,
                     ),
-                    SizedBox(height: height * 0.01),
+                    SizedBox(height: height * 0.015),
                     Text(
                       'Earned Today: 45 minutes',
                       style: FTextStyles.labelText.copyWith(color: Colors.grey),
@@ -104,15 +104,24 @@ class _EarnYourTimeHomeScreenState extends State<EarnYourTimeHomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     StatCard(
-                      title: "Today's Total",
+                      titleIcon: Icons.phone_android_rounded,
+                      title: "Time Earned Today",
                       value: '4h 15m',
-                      subtitle: 'Coding Time: 3h 25m',
+                      subtitle: '+15 minutes from yesterday',
                     ),
                     StatCard(
+                      titleIcon: Icons.code,
+                      title: 'Productive Time',
+                      value: '3h 25m',
+                      subtitle: 'Coding Time Today',
+                      // icon: Icons.emoji_events,
+                    ),
+                    StatCard(
+                      titleIcon: Icons.emoji_events,
                       title: 'Focus Score',
                       value: '92%',
                       subtitle: 'Top 5% users',
-                      icon: Icons.emoji_events,
+                      // icon: Icons.emoji_events,
                     ),
                     StatCard(
                       title: 'Next Lock in',
@@ -131,7 +140,7 @@ class _EarnYourTimeHomeScreenState extends State<EarnYourTimeHomeScreen> {
                 'Current Activity',
                 style: FTextStyles.headingText,
               ),
-              SizedBox(height: height * 0.01),
+              SizedBox(height: height * 0.015),
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(
@@ -147,13 +156,19 @@ class _EarnYourTimeHomeScreenState extends State<EarnYourTimeHomeScreen> {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.code, color: Colors.blue, size: 30),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.blueAccent.withAlpha(50),
+                            shape: BoxShape.circle
+                          ),
+                            child: Icon(Icons.code, color: Colors.blue, size: 30)),
                         SizedBox(width: width * 0.03),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'VS Code - Project EarnYourTime',
+                              'VS Code - Project Habitrack',
                               style: FTextStyles.labelTextDark,
                             ),
                             Text(
@@ -195,14 +210,14 @@ class _EarnYourTimeHomeScreenState extends State<EarnYourTimeHomeScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: height * 0.01),
+              SizedBox(height: height * 0.015),
               ActivityTile(
                 icon: MdiIcons.microsoftVisualStudioCode,
                 activity: 'VS Code',
                 time: '2h 15m',
                 timestamp: '2:30 PM',
                 width: width,
-                height: height * 0.07,
+                height: height
               ),
               ActivityTile(
                 icon: MdiIcons.palette,
@@ -210,7 +225,7 @@ class _EarnYourTimeHomeScreenState extends State<EarnYourTimeHomeScreen> {
                 time: '1h 45m',
                 timestamp: '11:20 AM',
                 width: width,
-                height: height * 0.07,
+                height: height
               ),
               ActivityTile(
                 icon: Icons.code,
@@ -218,7 +233,7 @@ class _EarnYourTimeHomeScreenState extends State<EarnYourTimeHomeScreen> {
                 time: '1h 20m',
                 timestamp: '10:30 AM',
                 width: width,
-                height: height * 0.07,
+                height: height
               ),
               ActivityTile(
                 icon: Icons.description,
@@ -226,7 +241,7 @@ class _EarnYourTimeHomeScreenState extends State<EarnYourTimeHomeScreen> {
                 time: '45m',
                 timestamp: '9:00 AM',
                 width: width,
-                height: height * 0.07,
+                height: height
               ),
               ActivityTile(
                 icon: MdiIcons.googleChrome,
@@ -234,7 +249,7 @@ class _EarnYourTimeHomeScreenState extends State<EarnYourTimeHomeScreen> {
                 time: '45m',
                 timestamp: '9:15 AM',
                 width: width,
-                height: height * 0.07,
+                height: height
               ),
               SizedBox(height: height * 0.03),
             ],
