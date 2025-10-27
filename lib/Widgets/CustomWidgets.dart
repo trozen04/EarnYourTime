@@ -41,7 +41,7 @@ class CustomListTile extends StatelessWidget {
 }
 
 class ActivityTile extends StatelessWidget {
-  final IconData icon;
+  final IconData? icon;
   final String activity;
   final String time;
   final String timestamp;

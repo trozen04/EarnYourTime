@@ -5,6 +5,7 @@ import 'package:earn_your_time/Widgets/CustomDrawer.dart';
 import 'package:earn_your_time/Widgets/CustomWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class EarnYourTimeHomeScreen extends StatefulWidget {
   const EarnYourTimeHomeScreen({super.key});
@@ -212,7 +213,7 @@ class _EarnYourTimeHomeScreenState extends State<EarnYourTimeHomeScreen> {
               ),
               SizedBox(height: height * 0.015),
               ActivityTile(
-                icon: MdiIcons.microsoftVisualStudioCode,
+                icon: MdiIcons.microsoftVisualStudio,
                 activity: 'VS Code',
                 time: '2h 15m',
                 timestamp: '2:30 PM',
